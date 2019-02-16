@@ -1,35 +1,17 @@
 import React, { Component } from 'react';
-import { Card } from 'antd';
-
-const menus = [
-    {
-        name: 'Find Relief Camps',
-        route: '#'
-    },
-    {
-        name: 'Find Missing Person',
-        route: '#'
-    },
-    {
-        name: 'Request Help',
-        route: '#'
-    },
-    {
-        name: 'Volunteer',
-        route: '#'
-    }
-]
+import { Card, Icon } from 'antd';
+import { routes } from '../../config'
 
 export class Home extends Component {
 
     renderMenus = () => {
         return(
-            menus.map((menu) => {
+            routes.map((route) => {
                 return (
                     <Card
-                    title={menu.name}
+                    title={route.name}
                     style={{ width: 300, margin: 20 }}>
-                        <p>{menu.route}</p>
+                        <Icon type={route.icon} style={{fontSize: 40}}/>
                     </Card>
                 );
             })
