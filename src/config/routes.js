@@ -1,7 +1,12 @@
 export const routes = [
     {
-        name: 'Find Relief Camps',
+        name: 'Home',
         icon: 'home',
+        path: '/'
+    },
+    {
+        name: 'Find Relief Camps',
+        icon: 'global',
         path: '/find-camps'
     },
     {
@@ -18,5 +23,15 @@ export const routes = [
         name: 'Volunteer',
         icon: 'team',
         path: '/volunteer'
-    }
+    },
+    {
+        name: 'Announcements',
+        icon: 'sound',
+        path: '/announcements'
+    },
+    {
+        name: '24 X 7 Helpline',
+        icon: 'phone',
+        path: '/helpline'
+    },
 ]

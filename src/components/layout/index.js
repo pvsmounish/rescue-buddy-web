@@ -29,7 +29,7 @@ export class LayoutWrapper extends Component {
             }}
             >
                 <div className="logo" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={['/']}>
                     {this.renderMenuItems()}
                 </Menu>
             </Sider>
