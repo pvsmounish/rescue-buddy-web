@@ -10,9 +10,9 @@ export const routes = [
         path: '/find-camps'
     },
     {
-        name: 'Find Missing Person',
+        name: 'Missing Person',
         icon: 'user',
-        path: '/find-person'
+        path: '/missing-person'
     },
     {
         name: 'Request Help',
