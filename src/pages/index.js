@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Home } from './home';
+import { ErrorPage } from './errorPage';
 import { LayoutWrapper } from '../components/layout' 
 import "antd/dist/antd.css";
 
@@ -12,6 +13,7 @@ export class Routes extends Component {
                 <BrowserRouter>
                     <Switch>
                     <Route exact={true} path="/" component={Home} />
+                    <Route path='*' component={() => <ErrorPage message="404 Not Found!"/>} />
                     </Switch>
                 </BrowserRouter>
             </LayoutWrapper>
