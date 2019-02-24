@@ -13,8 +13,10 @@ export class LayoutWrapper extends Component {
             routes.map((route) => {
                 return(
                     <Menu.Item key={route.path}>
-                        <Icon type={route.icon} />
-                        <span className="nav-text">{route.name}</span>
+                        <a href={route.path}>
+                            <Icon type={route.icon} />
+                            <span className="nav-text">{route.name}</span>
+                        </a>
                     </Menu.Item>
                     )
             })
@@ -28,7 +30,9 @@ export class LayoutWrapper extends Component {
             overflow: 'auto', height: '100vh', position: 'fixed', left: 0,
             }}
             >
-                <img id="logo" src="/images/logo/RescueBuddy-logo.png" alt="RescueBuddy"/>
+                <a href="/">
+                    <img id="logo" src="/images/logo/RescueBuddy-logo.png" alt="RescueBuddy"/>
+                </a>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['/']}>
                     {this.renderMenuItems()}
                 </Menu>
