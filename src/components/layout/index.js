@@ -28,7 +28,7 @@ export class LayoutWrapper extends Component {
             overflow: 'auto', height: '100vh', position: 'fixed', left: 0,
             }}
             >
-                <div className="logo" />
+                <img id="logo" src="/images/logo/RescueBuddy-logo.png" alt="RescueBuddy"/>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['/']}>
                     {this.renderMenuItems()}
                 </Menu>

@@ -1,5 +1,6 @@
-.logo {
-    height: 32px;
-    background: rgba(255,255,255,.2);
-    margin: 16px;
+#logo {
+    width: 150px;
+    margin: 20px;
+    -webkit-filter: invert(1);
+    filter: invert(1);
 }
