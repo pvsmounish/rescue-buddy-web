@@ -23,7 +23,7 @@ export class Home extends Component {
     
     render() {
         return (
-            <div>
+            <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
                 {this.renderMenus()}
             </div>
         );
