@@ -43,4 +43,10 @@ export const routes = [
         path: '/helpline',
         page: Pages.HelpLine,
     },
+    {
+        name: 'Donate',
+        icon: 'dollar',
+        path: '/donate',
+        page: Pages.Donate,
+    },
 ]

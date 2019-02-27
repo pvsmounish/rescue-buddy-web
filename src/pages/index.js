@@ -5,4 +5,5 @@ export * from './requestHelp';
 export * from './volunteer';
 export * from './announcement';
 export * from './helpline';
+export * from './donate';
 export * from './errorPage';
