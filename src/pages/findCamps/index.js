@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
 import {
-    Icon, Card
+    Icon, Card, Tooltip
     } from 'antd';
 import GoogleMapReact from 'google-map-react';
 import { googleMapApiKey } from '../../config'
 
 const MapMarker = ({ text }) => (
-    <Card style={{ width: 200, height: 70 }}>
-        <Icon type='pushpin' />
-        {text}
-    </Card>
+    <Tooltip title={text}>
+        <div
+        style={{
+            position: 'absolute',
+            width: 30,
+            height: 30,
+            left: -30 / 2,
+            top: -30 / 2,
+            border: '3px solid #3f51b5',
+            borderRadius: 30,
+            backgroundColor: 'white',
+            textAlign: 'center',
+            color: '#3f51b5',
+            fontSize: 16,
+            fontWeight: 'bold',
+            padding: 3
+        }}
+        >
+            <Icon type='plus' />
+        </div>
+    </Tooltip>
 );
 
 export class FindCamps extends Component {
