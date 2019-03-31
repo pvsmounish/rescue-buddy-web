@@ -3,6 +3,7 @@ import {
     Icon, Card
     } from 'antd';
 import GoogleMapReact from 'google-map-react';
+import { googleMapApiKey } from '../../config'
 
 const MapMarker = ({ text }) => (
     <Card style={{ width: 200, height: 70 }}>
@@ -28,6 +29,7 @@ export class FindCamps extends Component {
                 <Card>
                 <div style={{ height: '100vh', width: '100%' }}>
                     <GoogleMapReact
+                    bootstrapURLKeys={{ key: googleMapApiKey }}
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
                     >
