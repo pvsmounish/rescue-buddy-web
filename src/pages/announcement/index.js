@@ -1,57 +1,58 @@
-import React, { Component, ReactFragment } from 'react';
+import React, { Component } from 'react';
 import {
-    List, Typography, Tag
+    List, Typography, Tag, Icon
     } from 'antd';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+const { Text } = Typography;
 
-    const { Text } = Typography;
+const GET_ANNOUNCEMENTS = gql`
+    query getAnnouncements{
+        announcements{
+            description,
+            from,
+            priority
+        }
+    }
+`;
 
 export class Announcement extends Component {
-
-    state = {
-        announcementsList: [
-            {
-                description: 'Tsunami at XYZ Beach',
-                priority: 'HIGH',
-                from: 'Cheif Minister'
-            },
-            {
-                description: 'New Relief center @ Katpadi',
-                priority: 'MEDIUM',
-                from: 'Cheif Minister'
-            },
-            {
-                description: 'Please check RescueBuddy for regular updates',
-                priority: 'LOW',
-                from: 'Mayor'
-            },
-        ]
-    }
     
     render() {
         return (
             <div>
                 <h2>Announcements</h2>
-                <List
-                    size='large'
-                    bordered
-                    dataSource={this.state.announcementsList}
-                    renderItem={announcement => {
+                <Query
+                query={GET_ANNOUNCEMENTS}
+                >
+                {({ loading, error, data }) => {
+                if (loading) return <Icon type='loading' style={{fontSize: 40}}/>;
+                if (error) return <p>Error :(</p>;
 
-                        const priorityColor = announcement.priority === 'HIGH' ? '#cf000f' : announcement.priority === 'MEDIUM' ? '#f22613' : '#ffc2b3'
+                    return (
+                        <List
+                            size='large'
+                            bordered
+                            dataSource={data.announcements}
+                            renderItem={announcement => {
 
-                        return (
-                            <List.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <div>
-                                    <Tag color={priorityColor}>{announcement.priority}</Tag>
-                                    {`${announcement.description}`}
-                                    <Text type="secondary">{` - ${announcement.from}`}</Text>
-                                </div>
-                            </List.Item>
-                        )
-                    }
+                                const priorityColor = announcement.priority === 'HIGH' ? '#cf000f' : announcement.priority === 'MEDIUM' ? '#f22613' : '#ffc2b3'
 
-                    }
-                />
+                                return (
+                                    <List.Item style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                        <div>
+                                            <Tag color={priorityColor}>{announcement.priority}</Tag>
+                                            {`${announcement.description}`}
+                                            <Text type="secondary">{` - ${announcement.from}`}</Text>
+                                        </div>
+                                    </List.Item>
+                                )
+                            }
+                            }
+                        />
+                    )
+            }}
+            </Query>
             </div>
         );
     }
