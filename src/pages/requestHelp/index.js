@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import {
-    Form, Input, Icon, Button, InputNumber, Radio, Select
+    Form, Input, Icon, Button
     } from 'antd';
 const { TextArea } = Input;
-const { Option } = Select;
 
 export class RequestHelp extends Component {
     state = {

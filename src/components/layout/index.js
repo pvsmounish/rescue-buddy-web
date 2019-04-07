@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
-import { Link } from "react-router-dom";
 import { routes } from "../../config";
 import './index.css';
 
