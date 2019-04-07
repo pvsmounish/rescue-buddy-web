@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import {
-    Card, Collapse, Divider
+    Card, Collapse, Divider, Icon
     } from 'antd';
 import { DonateForm } from './form';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 const { Panel } = Collapse;
 
-export class Donate extends Component {
+const GET_DONATIONS = gql`
+    query getDonations{
+        donations{
+            name,
+            city,
+            amount
+        }
+    }
+`;
 
-    renderDonate = () => (
-        <Card
-        title="Rs. 100"
-        bordered={true}
-        style={{ width: 240, margin: 20 }}
-        >
-            <p>Mounish Sai</p>
-            <p>Chittoor, India</p>
-        </Card>
-    )
+export class Donate extends Component {
 
     render() {
 
@@ -28,25 +29,33 @@ export class Donate extends Component {
                     </Panel>
                 </Collapse>
                 <Divider />
-                <Card title="Donors">
-                    <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-                    {
-                        this.renderDonate()
-                    }
-                    {
-                        this.renderDonate()
-                    }
-                    {
-                        this.renderDonate()
-                    }
-                    {
-                        this.renderDonate()
-                    }
-                    {
-                        this.renderDonate()
-                    }
-                    </div>
-                </Card>
+                <Query
+                query={GET_DONATIONS}
+                >
+                    {({ loading, error, data }) => {
+                    if (loading) return <Icon type='loading' style={{fontSize: 40}}/>;
+                    if (error) return <p>Error :(</p>;
+
+                    return (
+                        <Card title="Donors">
+                            <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+                                {data.donations &&
+                                    data.donations.map(donation => (
+                                        <Card
+                                        title={`Rs. ${donation.amount}`}
+                                        bordered={true}
+                                        style={{ width: 240, margin: 20 }}
+                                        >
+                                            <p>{donation.name}</p>
+                                            <p>{donation.city}</p>
+                                        </Card>
+                                ))
+                                }
+                            </div>
+                        </Card>
+                    )
+                    }}
+                </Query>
             </div>
         );
     }
