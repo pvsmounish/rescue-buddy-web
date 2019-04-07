@@ -1,36 +1,25 @@
 import React, { Component } from 'react';
 import {
-    Card, Collapse, Divider, Table, Tag
+    Card, Collapse, Divider, Table, Tag, Icon
     } from 'antd';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 import { VolunteerForm } from './form';
 const { Panel } = Collapse;
 
-export class Volunteer extends Component {
-
-    state = {
-        tableData: [{
-            key: '1',
-            name: 'Mounish Sai',
-            city: 'Vellore',
-            address: 'VIT Main Road, Katpadi',
-            category: 'Health Services',
-            mobileNumber: '+91 9014645004',
-        }, {
-            key: '2',
-            name: 'Kevin Thomas',
-            city: 'Vellore',
-            address: 'VIT Main Road, Katpadi',
-            category: 'Health Services',
-            mobileNumber: '+91 9014545004',
-        }, {
-            key: '3',
-            name: 'Sanjay',
-            city: 'Chennai',
-            address: 'Main Road, Anna Nagar',
-            category: 'Health Services',
-            mobileNumber: '+91 9046415004',
-        }]
+const GET_VOLUNTEERS = gql`
+    query getVolunteers{
+        volunteers{
+            name,
+            city,
+            address,
+            category,
+            mobileNumber
+        }
     }
+`;
+
+export class Volunteer extends Component {
 
     columns = [{
         title: 'Name',
@@ -56,7 +45,6 @@ export class Volunteer extends Component {
 }]
 
     render() {
-
         return(
             <div>
                 <Collapse>
@@ -66,9 +54,20 @@ export class Volunteer extends Component {
                 </Collapse>
                 <Divider />
                 <Card title="Volunteers">
-                    <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-                        <Table style={{flex: 1}} columns={this.columns} dataSource={this.state.tableData} />
-                    </div>
+                    <Query
+                        query={GET_VOLUNTEERS}
+                    >
+                        {({ loading, error, data }) => {
+                        if (loading) return <Icon type='loading' style={{fontSize: 40}}/>;
+                        if (error) return <p>Error :(</p>;
+
+                            return (
+                                <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+                                    <Table style={{flex: 1}} columns={this.columns} dataSource={data.volunteers} />
+                                </div>
+                            )
+                        }}
+                    </Query>
                 </Card>
             </div>
         );
