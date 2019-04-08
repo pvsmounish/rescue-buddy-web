@@ -7,3 +7,4 @@ export * from './announcement';
 export * from './helpline';
 export * from './donate';
 export * from './errorPage';
+export * from './landing';

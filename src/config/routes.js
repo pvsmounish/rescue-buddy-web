@@ -4,7 +4,7 @@ export const routes = [
     {
         name: 'Home',
         icon: 'home',
-        path: '/',
+        path: '/home',
         page: Pages.Home,
     },
     {

@@ -17,14 +17,15 @@ export class Router extends Component {
     
     render() {
         return (
-            <LayoutWrapper>
-                <BrowserRouter>
-                    <Switch>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact={true} path={'/'} component={Pages.Landing} />
+                    <LayoutWrapper>
                         {this.renderRoutes()}
-                        <Route path='*' component={() => <Pages.ErrorPage message="404 Not Found!"/>} />
-                    </Switch>
-                </BrowserRouter>
-            </LayoutWrapper>
+                    </LayoutWrapper>
+                    <Route path='*' component={() => <Pages.ErrorPage message="404 Not Found!"/>} />
+                </Switch>
+            </BrowserRouter>
         );
     }
 }
