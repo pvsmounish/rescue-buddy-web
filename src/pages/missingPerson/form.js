@@ -179,7 +179,7 @@ export class MissingPersonForm extends Component {
                         label="City"
                         >
                             <Input
-                                prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} value={this.state.city} onChange={(e) => this.setState({city: e.target.value})}
+                                prefix={<Icon type="environment" style={{ color: 'rgba(0,0,0,.25)' }} />} value={this.state.city} onChange={(e) => this.setState({city: e.target.value})}
                             />
                         </Form.Item>
 
@@ -187,9 +187,7 @@ export class MissingPersonForm extends Component {
                         {...formItemLayout}
                         label="Address"
                         >
-                            <Input
-                                prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} value={this.state.address} onChange={(e) => this.setState({address: e.target.value})}
-                            />
+                            <TextArea rows={4} value={this.state.address} onChange={(e) => this.setState({address: e.target.value})} />
                         </Form.Item>
 
                         <Form.Item
