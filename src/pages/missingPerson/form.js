@@ -9,8 +9,8 @@ import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET } from '../../config'
 const { TextArea } = Input;
 
 const ADD_MISSING_PERSON = gql`
-    mutation createMissingPerson($name: String!, $description: String!, $age: Int!, $gender: Gender!, $missingDateTime: String!, $guardianName: String!, $guardianMobile: String!, $photoUrl: String) {
-        createMissingPerson(name: $name, description: $description, age: $age, gender: $gender, missingDateTime: $missingDateTime, guardianName: $guardianName, guardianMobile: $guardianMobile, photoUrl: $photoUrl) {
+    mutation createMissingPerson($name: String!, $description: String!, $age: Int!, $gender: Gender!, $missingDateTime: String!, $guardianName: String!, $guardianMobile: String!, $city: String!, $address: String , $photoUrl: String) {
+        createMissingPerson(name: $name, description: $description, age: $age, gender: $gender, missingDateTime: $missingDateTime, guardianName: $guardianName, guardianMobile: $guardianMobile, city: $city, address: $address, photoUrl: $photoUrl) {
             id
         }
     }
@@ -25,6 +25,8 @@ export class MissingPersonForm extends Component {
         missingDateTime: '',
         guardianName: '',
         guardianMobile: '',
+        city: '',
+        address: '',
         file: null,
         photoUrl: '',
     };
@@ -71,6 +73,8 @@ export class MissingPersonForm extends Component {
                 missingDateTime: this.state.missingDateTime,
                 guardianName: this.state.guardianName,
                 guardianMobile: this.state.guardianMobile,
+                city: this.state.city,
+                address: this.state.address,
                 photoUrl: this.state.photoUrl
             }}>
                 {(createMissingPerson, { data }) => (
@@ -167,6 +171,24 @@ export class MissingPersonForm extends Component {
                         >
                             <Input
                                 prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} value={this.state.guardianMobile} onChange={(e) => this.setState({guardianMobile: e.target.value})}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                        {...formItemLayout}
+                        label="City"
+                        >
+                            <Input
+                                prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} value={this.state.city} onChange={(e) => this.setState({city: e.target.value})}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                        {...formItemLayout}
+                        label="Address"
+                        >
+                            <Input
+                                prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} value={this.state.address} onChange={(e) => this.setState({address: e.target.value})}
                             />
                         </Form.Item>
 

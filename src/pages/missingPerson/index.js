@@ -20,6 +20,8 @@ const GET_MISSING_PERSONS = gql`
             missingDateTime,
             guardianName,
             guardianMobile,
+            city,
+            address,
             createdAt,
         }
     }
@@ -38,7 +40,7 @@ export class MissingPerson extends Component {
         >
             <Meta
                 title={missingPerson.name}
-                description={`Age: ${missingPerson.age}`}
+                description={`City: ${missingPerson.city}`}
             />
         </Card>
 )
@@ -66,6 +68,8 @@ export class MissingPerson extends Component {
                     <p>Missing From: {`${missingDateTime.toDateString()} - ${missingDateTime.toTimeString()}`}</p>
                     <p>Guardian Name: {missingPerson.guardianName}</p>
                     <p>Guardian Mobile: {missingPerson.guardianMobile}</p>
+                    <p>City: {missingPerson.city}</p>
+                    <p>Address: {missingPerson.address}</p>
                 </div>
             ),
             onOk() {},
