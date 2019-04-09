@@ -10,6 +10,7 @@ const { Panel } = Collapse;
 const GET_DONATIONS = gql`
     query getDonations{
         donations{
+            id,
             name,
             city,
             amount
@@ -42,6 +43,7 @@ export class Donate extends Component {
                                 {data.donations &&
                                     data.donations.map(donation => (
                                         <Card
+                                        key={donation.id}
                                         title={`Rs. ${donation.amount}`}
                                         bordered={true}
                                         style={{ width: 240, margin: 20 }}

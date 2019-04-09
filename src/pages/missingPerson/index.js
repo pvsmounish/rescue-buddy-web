@@ -29,6 +29,7 @@ export class MissingPerson extends Component {
 
     missingPersonCard = (missingPerson) => (
         <Card
+        key={missingPerson.id}
         bordered={true}
         hoverable
         style={{ width: 240, margin: 20 }}
