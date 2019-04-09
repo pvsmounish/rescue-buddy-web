@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import {
-    Form, Input, Icon, Button, InputNumber, Radio, Upload, Modal, DatePicker, notification
+    Form, Input, Icon, Button, InputNumber, Radio, DatePicker, notification
     } from 'antd';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import Dropzone from 'react-dropzone';
+import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET } from '../../config'
 const { TextArea } = Input;
 
 const ADD_MISSING_PERSON = gql`
-    mutation createMissingPerson($name: String!, $description: String!, $age: Int!, $gender: Gender!, $missingDateTime: String!, $guardianName: String!, $guardianMobile: String!) {
-        createMissingPerson(name: $name, description: $description, age: $age, gender: $gender, missingDateTime: $missingDateTime, guardianName: $guardianName, guardianMobile: $guardianMobile) {
+    mutation createMissingPerson($name: String!, $description: String!, $age: Int!, $gender: Gender!, $missingDateTime: String!, $guardianName: String!, $guardianMobile: String!, $photoUrl: String) {
+        createMissingPerson(name: $name, description: $description, age: $age, gender: $gender, missingDateTime: $missingDateTime, guardianName: $guardianName, guardianMobile: $guardianMobile, photoUrl: $photoUrl) {
             id
         }
     }
@@ -16,45 +18,16 @@ const ADD_MISSING_PERSON = gql`
 
 export class MissingPersonForm extends Component {
     state = {
-        confirmDirty: false,
-        autoCompleteResult: [],
-        previewVisible: false,
-        previewImage: '',
-        fileList: [{
-            uid: '-1',
-            name: 'mounish-sai.jpg',
-            status: 'done',
-            url: 'https://mounishsai.com/images/mounish-sai.jpg',
-        }],
         name: '',
         description: '',
         age: '',
         gender: '',
         missingDateTime: '',
         guardianName: '',
-        guardianMobile: ''
+        guardianMobile: '',
+        file: null,
+        photoUrl: '',
     };
-
-    handleCancel = () => this.setState({ previewVisible: false })
-
-    handlePreview = (file) => {
-        this.setState({
-            previewImage: file.url || file.thumbUrl,
-            previewVisible: true,
-        });
-    }
-
-    handleChange = ({ fileList }) => this.setState({ fileList })
-
-    
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
-    }
 
     render() {
 
@@ -98,16 +71,33 @@ export class MissingPersonForm extends Component {
                 missingDateTime: this.state.missingDateTime,
                 guardianName: this.state.guardianName,
                 guardianMobile: this.state.guardianMobile,
+                photoUrl: this.state.photoUrl
             }}>
                 {(createMissingPerson, { data }) => (
                     <Form
                         onSubmit={async (e) => {
                             e.preventDefault();
                             try {
+
+                                const { file } = this.state;
+
+                                const formData = new FormData();
+                                formData.append('file', file);
+                                formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+                                const response =  await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                                    method: 'POST',
+                                    body: formData
+                                })
+
+                                const responseJson = await response.json();
+                                this.setState({photoUrl: responseJson.secure_url})
+                                console.log(this.state)
                                 await createMissingPerson();
                                 notification.open({
                                     message: 'Added Missing Person Successfully! :)',
                                 });
+
                             } catch (error) {
                                 console.log(error);
                                 notification.open({
@@ -184,23 +174,24 @@ export class MissingPersonForm extends Component {
                         {...formItemLayout}
                         label="Photo"
                         >
-                            <Upload
-                                action="//jsonplaceholder.typicode.com/posts/"
-                                listType="picture-card"
-                                fileList={this.state.fileList}
-                                onPreview={this.handlePreview}
-                                onChange={this.handleChange}
-                                >
-                                {this.state.fileList.length >= 3 ? null : (
-                                    <div>
-                                        <Icon type="plus" />
-                                        <div className="ant-upload-text">Upload</div>
+                            <Dropzone onDrop={acceptedFiles => {
+                                this.setState({file: acceptedFiles[0]})
+                                console.log(this.state)
+                            }}>
+                                {({getRootProps, getInputProps}) => (
+                                <section>
+                                    <div {...getRootProps()}>
+                                    <input {...getInputProps()} />
+                                    {
+                                        this.state.file && (
+                                            <p>Selected <strong>{this.state.file.name}</strong></p>
+                                        )
+                                    }
+                                    <p>Drag 'n' drop image here, or click to select image</p>
                                     </div>
+                                </section>
                                 )}
-                            </Upload>
-                            <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
-                                <img alt="example" style={{ width: '100%' }} src={this.state.previewImage} />
-                            </Modal>
+                            </Dropzone>
                         </Form.Item>
 
                         <Form.Item {...tailFormItemLayout}>
